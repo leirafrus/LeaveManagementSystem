@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LeaveManagementSystem.Web.Data
@@ -10,6 +11,5 @@ namespace LeaveManagementSystem.Web.Data
         [Column(TypeName = "nvarchar(150)")]
         public string Name { get; set; }
         public int NumberOfDays { get; set; }
-
     }
 }
