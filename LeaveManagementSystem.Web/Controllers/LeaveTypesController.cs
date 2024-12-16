@@ -9,11 +9,11 @@ using LeaveManagementSystem.Web.Data;
 using LeaveManagementSystem.Web.Models;
 using LeaveManagementSystem.Web.Models.LeaveTypes;
 using AutoMapper;
-using LeaveManagementSystem.Web.Services;
 using System.Runtime.InteropServices;
 using NuGet.Configuration;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
+using LeaveManagementSystem.Web.Services.LeaveTypes;
 
 namespace LeaveManagementSystem.Web.Controllers
 {
