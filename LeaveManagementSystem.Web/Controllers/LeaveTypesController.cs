@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using LeaveManagementSystem.Application.Models.LeaveTypes;
+using LeaveManagementSystem.Application.Services.LeaveTypes;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using LeaveManagementSystem.Web.Data;
-using LeaveManagementSystem.Web.Models;
-using LeaveManagementSystem.Web.Models.LeaveTypes;
-using AutoMapper;
-using System.Runtime.InteropServices;
-using NuGet.Configuration;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.AspNetCore.Authorization;
-using LeaveManagementSystem.Web.Services.LeaveTypes;
+using NuGet.Protocol;
 
 namespace LeaveManagementSystem.Web.Controllers
 {

@@ -1,16 +1,12 @@
-﻿using LeaveManagementSystem.Web.Models.LeaveRequests;
-using LeaveManagementSystem.Web.Services.LeaveRequests;
-using LeaveManagementSystem.Web.Services.LeaveTypes;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using LeaveManagementSystem.Application.Models.LeaveRequests;
+using LeaveManagementSystem.Application.Services.LeaveRequests;
+using LeaveManagementSystem.Application.Services.LeaveTypes;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Net.WebSockets;
-using System.Runtime.InteropServices;
 
 namespace LeaveManagementSystem.Web.Controllers
 {
     [Authorize]
-    public class LeaveRequestsController(ILeaveTypeService _leaveTypeService, 
+    public class LeaveRequestsController(ILeaveTypeService _leaveTypeService,
         ILeaveRequestsService _leaveRequestsService) : Controller
     {
         public async Task<IActionResult> Index()
@@ -18,7 +14,7 @@ namespace LeaveManagementSystem.Web.Controllers
             var model = await _leaveRequestsService.GetEmployeeLeaveRequests();
             return View(model);
         }
-        
+
         public async Task<IActionResult> Create(int? leaveTypeId)
         {
             var leaveTypes = await _leaveTypeService.GetAll();

@@ -1,48 +1,49 @@
-using LeaveManagementSystem.Web.Data;
-using LeaveManagementSystem.Web.Services.LeaveAllocations;
-using LeaveManagementSystem.Web.Services.LeaveRequests;
-using LeaveManagementSystem.Web.Services.LeaveTypes;
-using LeaveManagementSystem.Web.Services.Periods;
-using LeaveManagementSystem.Web.Services.Users;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+using LeaveManagementSystem.Application;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 // Start - Added Services
-builder.Services.AddScoped<ILeaveTypeService, LeaveTypeService>(); // This was added for Service and Interface
-//builder.Services.AddTransient<IEmailSender, EmailSender>(); // This was added for Service and Interface
-builder.Services.AddScoped<ILeaveAllocationService, LeaveAllocationService>(); // This was added for Service and Interface
-builder.Services.AddScoped<ILeaveRequestsService, LeaveRequestsService>(); // This was added for Service and Interface
-builder.Services.AddScoped<IPeriodService, PeriodsService>(); // This was added for Service and Interface
-builder.Services.AddScoped<IUserService, UserService>();
+
+// Services has been moved here
+DataServicesRegistration.AddDataServices(builder.Services, builder.Configuration);
+//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+//                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(connectionString));
+//builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+ApplicationServicesRegistration.AddApplicationServices(builder.Services);
+
+builder.Host.UseSerilog((ctx, config) =>
+    config.WriteTo.Console()
+    .ReadFrom.Configuration(ctx.Configuration)
+);
 
 // Adding Policy to resource
-builder.Services.AddAuthorization(options => {
-    options.AddPolicy("AdminSupervisorOnly", policy => {
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminSupervisorOnly", policy =>
+    {
         policy.RequireRole(Roles.Administrator, Roles.Supervisor);
     });
 
-    options.AddPolicy("SupervisorOnly", policy => {
+    options.AddPolicy("SupervisorOnly", policy =>
+    {
         policy.RequireRole(Roles.Supervisor);
     });
 });
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly()); // This was added for the AutoMapper
-
 // End - Added Services
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+    options.Password.RequiredLength = 8;
+})
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();

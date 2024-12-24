@@ -1,6 +1,4 @@
-using LeaveManagementSystem.Web.Models;
-using LeaveManagementSystem.Web.Services;
-using Microsoft.AspNetCore.Mvc;
+using LeaveManagementSystem.Application.Models;
 using System.Diagnostics;
 
 namespace LeaveManagementSystem.Web.Controllers
